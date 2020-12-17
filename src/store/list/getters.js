@@ -7,18 +7,23 @@ export const getters = {
     },
 
     [JOKE_BY_ID]: ({ jokes }) => (id) => {
-        const findJoke = jokes.find(joke => joke.id == id);
-
-        return findJoke;
+        try {
+            const findJoke = jokes.find(joke => joke.id == id);
+            return findJoke;
+        } catch (e) {
+            console.log(e);
+        }
     },
 
-    [FIND_JOKE]: ({ jokes }) => (findJoke) => {
+    [FIND_JOKE]: ({jokes}) => (findJoke) => {
+        try {
+            const filter = jokes.filter(el => el.joke.toLowerCase().includes(findJoke.toLowerCase()));
+            const allJokes = _.chunk(filter, 10);
+            const pageCount = _.size(allJokes);
 
-      const filter =  jokes.filter(el => el.joke.toLowerCase().includes(findJoke.toLowerCase()));
-
-      const allJokes = _.chunk(filter,10);
-      const pageCount = _.size(allJokes);
-
-      return { allJokes,pageCount };
+            return { allJokes, pageCount };
+        } catch (e) {
+            console.log(e);
+        }
     }
 }
